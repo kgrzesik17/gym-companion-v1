@@ -48,7 +48,7 @@
 
             if(mysqli_num_rows($check_password_query) == 1) {
                 if(password_verify($password, $check_password[0])) {
-                    $_SESSION['user_id'] = mysqli_query($link, "SELECT id FROM users WHERE user_login = '$login'");
+                    $_SESSION['user_id'] = mysqli_fetch_array(mysqli_query($link, "SELECT id FROM users WHERE user_login = '$login'"))[0];
                     header('Location: ../');
                     die();
                 }

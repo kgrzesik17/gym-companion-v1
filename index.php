@@ -25,7 +25,7 @@
             <div class="header__links">
                 <ul>
                     <li><a href="#">Trening</a></li>
-                    <li><a href="./workout">Ćwiczenia</a></li>
+                    <li><a href="./exercises">Ćwiczenia</a></li>
                     <li><a href="./measurements">Pomiary</a></li>
                     
                     <?php
@@ -51,6 +51,19 @@
             if(!isset($_SESSION['user_id'])) {
                 echo 'musisz być zalogowany, aby skorzystać z tej funkcji';
                 die();
+            }
+
+            else {
+                $user_id = $_SESSION['user_id'];
+
+                $get_exercises_sql = "SELECT * FROM exercises WHERE user_id = '$user_id'";
+                $get_exercises_query = mysqli_query($link, $get_exercises_sql);
+                $get_exercises = mysqli_fetch_array($get_exercises_query);
+
+                if(!$get_exercises) {
+                    echo '<div>Nie masz żadnych treningów.</div>';
+                    echo '<div><a href="./new-training">Dodaj</a></div>';
+                }
             }
         ?>
     </div>

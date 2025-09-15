@@ -28,7 +28,7 @@
             <div class="header__links">
                 <ul>
                     <li><a href="../">Trening</a></li>
-                    <li><a href="../workout">Ćwiczenia</a></li>
+                    <li><a href="../exercises">Ćwiczenia</a></li>
                     <li><a href="../measurements">Pomiary</a></li>
                     <li><a href="#">Rejestracja</a></li>
                     <li><a href="../login">Login</a></li>
