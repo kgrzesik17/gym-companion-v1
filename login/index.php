@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
     <?php
         session_start();
-        session_destroy();    
+
         $error_message = '';    
         $link = mysqli_connect('localhost', 'root', '', 'gymcompanionv0');
 
@@ -38,36 +38,36 @@
     </header>
 
     <?php
-        if($_POST['login'] && $_POST['password'] && $_POST['confirm']) {
-            if($_POST['password'] == $_POST['confirm']) {
-                $login = mysqli_real_escape_string($link, $_POST['login']);
-                $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if($_POST['login'] && $_POST['password']) {
+            $login = $_POST['login'];
+            $password = $_POST['password'];
 
-                $check_login_sql = "SELECT * FROM users WHERE user_login = '$login'";
-                $check_login_query = mysqli_query($link, $check_login_sql);
-                
-                if(mysqli_num_rows($check_login_query) > 0) {
-                    $error_message = "taki użytkownik już istnieje";
+            $check_password_sql = "SELECT user_password FROM users WHERE user_login = '$login'";
+            $check_password_query = mysqli_query($link, $check_password_sql);
+            $check_password = mysqli_fetch_array($check_password_query);
+
+            if(mysqli_num_rows($check_password_query) == 1) {
+                if(password_verify($password, $check_password[0])) {
+                    $_SESSION['user_id'] = mysqli_query($link, "SELECT id FROM users WHERE user_login = '$login'");
+                    header('Location: ../');
+                    die();
                 }
                 else {
-                    $register_sql = "INSERT INTO users (user_login, user_password) VALUES ('$login', '$password')";
-                    mysqli_query($link, $register_sql);
-                    header('Location: ../login');
-                    die();
+                    $error_message = 'login lub hasło niepoprawne';
                 }
             }
             else {
-                $error_message = 'hasła nie są identyczne';
+                $error_message = 'login lub hasło niepoprawne';
             }
+
+           
         }
         else {
             $error_message = 'wszystkie rubryki muszą zostać wypełnione';
         }
     ?>
-
-
     <div class="intro">
-        <h1>Rejestracja</h1>
+        <h1>Logowanie</h1>
      </div>
         
     <div class="main">
@@ -78,13 +78,10 @@
 
             <div>
                 <input type="password" placeholder="haslo" name="password" id="password">
-
-            <div>
-                <input type="password" placeholder="potwierdz" name="confirm" id="confirm">
             </div>
 
             <div>
-                <input type="submit" value="rejestrajca">
+                <input type="submit" value="zaloguj">
             </div>
 
             <div class="register-error">
