@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <?php
+        $link = mysqli_connect('localhost', 'root', '', 'gymcompanionv0');
+
+        if(!$link) {
+            echo "Nie mozna polaczyc z baza danych: " . mysqli_connect_error();
+        }
+    ?>
+
     <header>
         <div class="header__container">
             <div class="header__brand">
@@ -16,8 +24,10 @@
             <div class="header__links">
                 <ul>
                     <li><a href="#">Trening</a></li>
-                    <li><a href="./cwiczenia">Ćwiczenia</a></li>
-                    <li><a href="./pomiary">Pomiary</a></li>
+                    <li><a href="./workout">Ćwiczenia</a></li>
+                    <li><a href="./measurements">Pomiary</a></li>
+                    <li><a href="./register">Rejestracja</a></li>
+                    <li><a href="./login">Login</a></li>
                 </ul>
             </div>
         </div>
